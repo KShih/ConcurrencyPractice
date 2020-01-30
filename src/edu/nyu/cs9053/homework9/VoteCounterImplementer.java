@@ -6,7 +6,7 @@ public class VoteCounterImplementer implements VoteCounter{
 
     private final Semaphore binarySemaphore;
 
-    public VoteCounterImplementer(Semaphore binarySemaphore){
+    VoteCounterImplementer(Semaphore binarySemaphore){
         this.binarySemaphore = binarySemaphore;
     }
 
@@ -14,13 +14,18 @@ public class VoteCounterImplementer implements VoteCounter{
     public QueueNumber count(Queue from) {
         try {
             binarySemaphore.acquire();
-            if (!from.isEmpty()){
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(ie);
+        }
+        try {
+            if (!from.isEmpty()) {
                 return from.getQueueNumber();
             }
-            binarySemaphore.release();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            return null;
         }
-        return null;
+        finally {
+            binarySemaphore.release();
+        }
     }
 }

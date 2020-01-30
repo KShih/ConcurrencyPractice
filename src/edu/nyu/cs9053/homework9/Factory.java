@@ -7,13 +7,13 @@ import java.util.concurrent.Semaphore;
  */
 public class Factory {
 
-    private static final Semaphore binarySemaphore = new Semaphore(1);
+    private static final Semaphore BINARY_SEMAPHORE = new Semaphore(1);
 
     public static Voter createVoter() {
-        return new VoterImplementer(binarySemaphore);
+        return new VoterImplementer(BINARY_SEMAPHORE);
     }
 
     public static VoteCounter createVoteCounter() {
-        return new VoteCounterImplementer(binarySemaphore);
+        return new VoteCounterImplementer(BINARY_SEMAPHORE);
     }
 }

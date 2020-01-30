@@ -5,17 +5,14 @@ import java.util.concurrent.Semaphore;
 
 public class BallotImplementer implements Ballot {
 
-    private final Semaphore binarySemaphore;
+    private Random random;
 
-    public BallotImplementer(Semaphore binarySemaphore) {
-        this.binarySemaphore = binarySemaphore;
+    BallotImplementer(){
+        random = new Random();
     }
 
     @Override
     public boolean isYes() {
-        Random random = new Random();
-
-        binarySemaphore.release();
         return random.nextBoolean();
     }
 }
